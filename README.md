@@ -2,8 +2,7 @@
 This is a WebFinger (RFC 7033) client implementation written in PHP.
 
 # Installation
-You need [Composer](https://getcomposer.org) to install the dependencies to
-run the tests.
+You need [Composer](https://getcomposer.org) to install the dependencies:
 
     $ /path/to/composer.phar install
 
