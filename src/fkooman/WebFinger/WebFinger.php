@@ -46,7 +46,12 @@ class WebFinger
 
             if (!$this->getOption('ignore_media_type', false)) {
                 if ("application/jrd+json" !== $response->getHeader("Content-Type")) {
-                    throw new WebFingerException("invalid media type");
+                    throw new WebFingerException(
+                        sprintf(
+                            "invalid media type, expected 'application/jrd+json', got '%s'",
+                            $response->getHeader("Content-Type")
+                        )
+                    );
                 }
             }
             if ("*" !== $response->getHeader("Access-Control-Allow-Origin")) {
