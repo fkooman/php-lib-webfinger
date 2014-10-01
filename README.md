@@ -26,7 +26,7 @@ The library `fkooman\WebFinger\WebFinger` can be used in your project.
                 "ignore_media_type" => false
             )
         );
-        echo $w->discover("fkooman@5apps.com");
+        echo $w->finger("fkooman@5apps.com");
     } catch (WebFingerException $e) {
         echo $e->getMessage() . PHP_EOL;
     } 
@@ -34,5 +34,5 @@ The library `fkooman\WebFinger\WebFinger` can be used in your project.
 # Compliancy Testing
 A script is included to check a WebFinger server implementation:
 
-	$ php webfinger-query.php foo@example.org
+	$ php finger.php foo@example.org
 

@@ -22,12 +22,7 @@ class WebFinger
         $this->client = new Client();
     }
 
-    public function discover($resource)
-    {
-        return $this->request($resource);
-    }
-
-    private function request($resource)
+    public function finger($resource)
     {
         if (false === strpos($resource, "@")) {
             throw new WebFingerException("resource must be formatted as an email address");
@@ -60,6 +55,9 @@ class WebFinger
 
             return new WebFingerData($response->json());
         } catch (RequestException $e) {
+            // a 404 is a normal response when the resource does not exist, so
+            // we wrap that here in a WebFingerException, so any other
+            // Exceptions came from Guzzle and can be considered fatal
             if (404 === $e->getCode()) {
                 throw new WebFingerException("resource not found");
             }
