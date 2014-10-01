@@ -55,24 +55,16 @@ class WebFinger
                 }
             }
             if ("*" !== $response->getHeader("Access-Control-Allow-Origin")) {
-                $this->validateLog[] = "cors header access-control-allow-origin missing or invalid";
+                $this->validateLog[] = "Access-Control-Allow-Origin header missing or invalid";
             }
 
-            $webFingerData = $response->json();
-
-            $this->validateData($webFingerData);
-
-            return $webFingerData;
+            return new WebFingerData($response->json());
         } catch (RequestException $e) {
             if (404 === $e->getCode()) {
                 throw new WebFingerException("resource not found");
             }
             throw $e;
         }
-    }
-
-    protected function validateData(array $webFingerData)
-    {
     }
 
     private function getOption($key, $default)
