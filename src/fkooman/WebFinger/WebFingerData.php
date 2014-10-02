@@ -29,14 +29,14 @@ class WebFingerData
             // store the links by their rel key
             foreach ($webFingerData['links'] as $link) {
                 $this->requireArray($link);
-                // rel MUST be present
+                // rel MUST be present and string
                 $this->requireStringKeyValue($link, 'rel', true);
                 $this->links[$link['rel']] = $link;
-                // href must be string
+                // href must be string (uri)
                 if (null !== $this->requireStringKeyValue($link, 'href')) {
                     $this->requireUri($link['href']);
                 }
-                // type must be string
+                // type must be string (media type)
                 $this->requireStringKeyValue($link, 'type');
                 // properties must be array
                 if (null !== $this->requireArrayKeyValue($link, 'properties')) {
@@ -46,7 +46,6 @@ class WebFingerData
                         $this->requireStringOrNull($v);
                     }
                 }
-                $this->validateLinkRelation($link['rel']);
             }
         }
     }
@@ -69,9 +68,9 @@ class WebFingerData
     public function getProperties($rel)
     {
         if (null !== $this->requireArrayKeyValue($this->links, $rel)) {
-            $this->requireArrayKeyValue($this->links[$rel], 'properties');
-
-            return $this->links[$rel]['properties'];
+            if (null !== $this->requireArrayKeyValue($this->links[$rel], 'properties')) {
+                return $this->links[$rel]['properties'];
+            }
         }
 
         return null;
@@ -143,55 +142,20 @@ class WebFingerData
         return $s;
     }
 
-    private function validateLinkRelation($linkRelation)
-    {
-        // additional checks for remotestorage link relation
-        if ("remotestorage" === $linkRelation) {
-            // needs href
-            if (null === $this->getHref($linkRelation)) {
-                throw new WebFingerException("remotestorage needs 'href'");
-            }
-            // needs properties
-            $properties = $this->getProperties($linkRelation);
-            if (null === $properties) {
-                throw new WebFingerException("remotestorage needs 'properties'");
-            }
-
-            // needs authUri property
-            $this->requireStringKeyValue($properties, 'http://tools.ietf.org/html/rfc6749#section-4.2', true);
-            $this->requireUri($properties['http://tools.ietf.org/html/rfc6749#section-4.2']);
-
-            // needs version property
-            $this->requireStringKeyValue($properties, 'http://remotestorage.io/spec/version', true);
-
-            // optional properties
-            if (null !== $this->requireStringKeyValue($properties, 'https://tools.ietf.org/html/rfc2616#section-14.16')) {
-                if (!in_array($properties['https://tools.ietf.org/html/rfc2616#section-14.16'], array("true", "false"))) {
-                    throw new WebFingerException("'property needs to be 'true' or 'false' as string");
-                }
-            }
-            if (null !== $this->requireStringKeyValue($properties, 'http://tools.ietf.org/html/rfc6750#section-2.3')) {
-                if (!in_array($properties['http://tools.ietf.org/html/rfc6750#section-2.3'], array("true", "false"))) {
-                    throw new WebFingerException("'property needs to be 'true' or 'false' as string");
-                }
-            }
-        }
-    }
-
     public function __toString()
     {
         $output = __CLASS__ . PHP_EOL;
         if (null !== $this->getSubject()) {
-            $output .= sprintf("Subject: %s\n", $this->getSubject());
+            $output .= sprintf("subject: %s\n", $this->getSubject());
         }
-        $output .= "Link Relations:\n";
+        $output .= "link relations:\n";
         foreach ($this->getLinkRelations() as $rel) {
             $output .= sprintf("  * %s\n", $rel);
             if (null !== $this->getHref($rel)) {
-                $output .= sprintf("      Href: %s\n", $this->getHref($rel));
+                $output .= sprintf("    * href: %s\n", $this->getHref($rel));
             }
             if (null !== $this->getProperties($rel)) {
-                $output .= "      Properties:\n";
+                $output .= "    * properties:\n";
                 foreach ($this->getProperties($rel) as $k => $v) {
                     $output .= sprintf("        * %s: %s\n", $k, $v);
                 }
