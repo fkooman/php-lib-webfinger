@@ -55,33 +55,35 @@ class WebFingerData
         return $this->subject;
     }
 
-    public function getLinkRelations()
+    private function getProperties($linkRelation)
     {
-        return array_keys($this->links);
-    }
-
-    public function hasLinkRelation($rel)
-    {
-        return array_key_exists($rel, $this->links);
-    }
-
-    public function getProperties($rel)
-    {
-        if (null !== $this->requireArrayKeyValue($this->links, $rel)) {
-            if (null !== $this->requireArrayKeyValue($this->links[$rel], 'properties')) {
-                return $this->links[$rel]['properties'];
+        if (null !== $this->requireArrayKeyValue($this->links, $linkRelation)) {
+            if (null !== $this->requireArrayKeyValue($this->links[$linkRelation], 'properties')) {
+                return $this->links[$linkRelation]['properties'];
             }
         }
 
         return null;
     }
 
-    public function getHref($rel)
+    public function getProperty($linkRelation, $property)
     {
-        if (null !== $this->requireArrayKeyValue($this->links, $rel, true)) {
-            $this->requireStringKeyValue($this->links[$rel], 'href');
+        $properties = $this->getProperties($linkRelation);
+        if (null !== $properties) {
+            if (null !== $this->requireStringKeyValue($properties, $property)) {
+                return $this->links[$linkRelation]['properties'][$property];
+            }
+        }
 
-            return $this->links[$rel]['href'];
+        return null;
+    }
+
+    public function getHref($linkRelation)
+    {
+        if (null !== $this->requireArrayKeyValue($this->links, $linkRelation)) {
+            if (null !== $this->requireStringKeyValue($this->links[$linkRelation], 'href')) {
+                return $this->links[$linkRelation]['href'];
+            }
         }
 
         return null;

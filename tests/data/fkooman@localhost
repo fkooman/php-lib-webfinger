@@ -1,0 +1,15 @@
+{
+    "links": [
+        {
+            "href": "https://localhost/php-remote-storage/api.php/fkooman",
+            "properties": {
+                "http://remotestorage.io/spec/version": "draft-dejong-remotestorage-03",
+                "http://tools.ietf.org/html/rfc2616#section-14.16": "false",
+                "http://tools.ietf.org/html/rfc6749#section-4.2": "https://localhost/php-oauth-as/authorize.php?x_resource_owner_hint=fkooman",
+                "http://tools.ietf.org/html/rfc6750#section-2.3": "true"
+            },
+            "rel": "remotestorage"
+        }
+    ],
+    "subject": "acct:fkooman@localhost"
+}
