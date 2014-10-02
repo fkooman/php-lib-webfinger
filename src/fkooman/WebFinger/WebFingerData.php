@@ -55,6 +55,11 @@ class WebFingerData
         return $this->subject;
     }
 
+    public function getLinkRelations()
+    {
+        return array_keys($this->links);
+    }
+
     private function getProperties($linkRelation)
     {
         if (null !== $this->requireArrayKeyValue($this->links, $linkRelation)) {

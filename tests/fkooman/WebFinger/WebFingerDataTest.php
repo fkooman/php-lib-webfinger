@@ -30,5 +30,6 @@ class WebFingerDataTest extends PHPUnit_Framework_TestCase
             "https://localhost/php-oauth-as/authorize.php?x_resource_owner_hint=fkooman",
             $w->getProperty("remotestorage", "http://tools.ietf.org/html/rfc6749#section-4.2")
         );
+        $this->assertEquals(array("remotestorage"), $w->getLinkRelations());
     }
 }
