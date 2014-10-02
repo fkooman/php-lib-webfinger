@@ -5,12 +5,23 @@ This is a WebFinger (RFC 7033) client implementation written in PHP. It
 locates the WebFinger data based on a resource.
 
 # Installation
-You need [Composer](https://getcomposer.org) to install the dependencies:
+You need [Composer](https://getcomposer.org) to install the dependencies to
+run the included `finger.php` script. See below how to use it in your 
+project.
 
     $ /path/to/composer.phar install
 
 # Usage
 The library `fkooman\WebFinger\WebFinger` can be used in your project.
+
+You can also use `Composer` and make this library a dependency by putting
+the following in your `composer.json` in the `require` section:
+
+	"fkooman/webfinger": "~0.1.0"
+
+Or if you want to use the development version:
+
+	"fkooman/webfinger": "dev-master"
 
 # API
 
