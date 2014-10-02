@@ -11,7 +11,7 @@
         }
     },
     "description": "WebFinger client written in PHP",
-    "license": "AGPL-3.0",
+    "license": "Apache-2.0",
     "name": "fkooman/webfinger",
     "require": {
         "guzzlehttp/guzzle": "4.*",
