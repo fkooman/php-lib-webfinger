@@ -34,6 +34,7 @@ class WebFinger
         $webFingerUri = sprintf("https://%s/.well-known/webfinger?resource=acct:%s", $domainName, $resource);
 
         try {
+            // FIXME: we have to make sure one cannot redirect to HTTP URIs!
             $response = $this->client->get(
                 $webFingerUri,
                 array(
