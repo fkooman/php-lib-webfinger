@@ -24,6 +24,8 @@ class WebFinger
 
     public function finger($resource)
     {
+        // verify the resource - we cannot use filter_var here as it does not
+        // accept `localhost` as a valid domain...
         if (false === strpos($resource, "@")) {
             throw new WebFingerException("resource must be formatted as an email address");
         }
@@ -57,7 +59,7 @@ class WebFinger
         } catch (RequestException $e) {
             // a 404 is a normal response when the resource does not exist, so
             // we wrap that here in a WebFingerException, so any other
-            // Exceptions came from Guzzle and can be considered fatal
+            // Exceptions came from Guzzle and can be considered fatal...
             if (404 === $e->getCode()) {
                 throw new WebFingerException("resource not found");
             }
