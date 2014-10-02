@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fkooman/php-lib-webfinger.svg?branch=master)](https://travis-ci.org/fkooman/php-lib-webfinger)
+
 # Introduction
 This is a WebFinger (RFC 7033) client implementation written in PHP. It 
 locates the WebFinger data based on a resource.
