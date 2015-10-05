@@ -7,14 +7,13 @@
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\WebFinger": "src/"
+            "fkooman\\WebFinger\\": "src/"
         }
     },
-    "description": "WebFinger client written in PHP",
+    "description": "WebFinger client library",
     "license": "Apache-2.0",
     "name": "fkooman/webfinger",
     "require": {
-        "guzzlehttp/guzzle": "4.*",
-        "php": ">=5.4"
+        "guzzlehttp/guzzle": "~5.3"
     }
 }
