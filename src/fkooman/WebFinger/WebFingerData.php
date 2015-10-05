@@ -18,13 +18,13 @@ class WebFingerData
         $this->links = array();
 
         // subject
-        if (null !== $this->requireStringKeyValue($webFingerData, "subject")) {
+        if (null !== $this->requireStringKeyValue($webFingerData, 'subject')) {
             // subject exists and is a string
             $this->subject = $webFingerData['subject'];
         }
 
         // links
-        if (null !== $this->requireArrayKeyValue($webFingerData, "links")) {
+        if (null !== $this->requireArrayKeyValue($webFingerData, 'links')) {
             // links exists and is an array
             // store the links by their rel key
             foreach ($webFingerData['links'] as $link) {
@@ -68,7 +68,7 @@ class WebFingerData
             }
         }
 
-        return null;
+        return;
     }
 
     public function getProperty($linkRelation, $property)
@@ -80,7 +80,7 @@ class WebFingerData
             }
         }
 
-        return null;
+        return;
     }
 
     public function getHref($linkRelation)
@@ -91,13 +91,13 @@ class WebFingerData
             }
         }
 
-        return null;
+        return;
     }
 
     private static function requireArray($data)
     {
         if (!is_array($data)) {
-            throw new WebFingerException("not an array");
+            throw new WebFingerException('not an array');
         }
     }
 
@@ -113,7 +113,7 @@ class WebFingerData
             throw new WebFingerException(sprintf("'%s' does not exist", $key));
         }
 
-        return null;
+        return;
     }
 
     private static function requireStringKeyValue(array $data, $key, $failWhenMissing = false)
@@ -128,13 +128,13 @@ class WebFingerData
             throw new WebFingerException(sprintf("'%s' does not exist", $key));
         }
 
-        return null;
+        return;
     }
 
     private static function requireUri($s)
     {
         if (false === filter_var($s, FILTER_VALIDATE_URL)) {
-            throw new WebFingerException("not a valid uri");
+            throw new WebFingerException('not a valid uri');
         }
 
         return $s;
@@ -151,7 +151,7 @@ class WebFingerData
 
     public function __toString()
     {
-        $output = __CLASS__ . PHP_EOL;
+        $output = __CLASS__.PHP_EOL;
         if (null !== $this->getSubject()) {
             $output .= sprintf("subject: %s\n", $this->getSubject());
         }
