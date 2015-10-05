@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/fkooman/php-lib-webfinger.svg?branch=master)](https://travis-ci.org/fkooman/php-lib-webfinger)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fkooman/php-lib-webfinger/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fkooman/php-lib-webfinger/?branch=master)
 
 # Introduction
 This is a WebFinger (RFC 7033) client implementation written in PHP. It 

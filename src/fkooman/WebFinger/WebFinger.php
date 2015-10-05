@@ -12,13 +12,20 @@ class WebFinger
     /** @var array */
     private $options;
 
-    /** @var GuzzleHttp\Client */
+    /** @var \GuzzleHttp\Client */
     private $client;
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = array(), Client $client = null)
     {
         $this->options = $options;
-        $this->client = new Client();
+        if (null === $client) {
+            $client = new Client(
+                array(
+                    'protocols' => array('https'),
+                )
+            );
+        }
+        $this->client = $client;
     }
 
     public function finger($resource)
@@ -33,7 +40,6 @@ class WebFinger
         $webFingerUri = sprintf('https://%s/.well-known/webfinger?resource=acct:%s', $domainName, $resource);
 
         try {
-            // FIXME: we have to make sure one cannot redirect to HTTP URIs!
             $response = $this->client->get(
                 $webFingerUri,
                 array(
@@ -45,7 +51,7 @@ class WebFinger
                 if ('application/jrd+json' !== $response->getHeader('Content-Type')) {
                     throw new WebFingerException(
                         sprintf(
-                            "invalid media type, expected 'application/jrd+json', got '%s'",
+                            'invalid media type, expected "application/jrd+json", got "%s"',
                             $response->getHeader('Content-Type')
                         )
                     );
