@@ -21,26 +21,34 @@ use fkooman\WebFinger\Exception\WebFingerException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Response;
 use GuzzleHttp\Exception\RequestException;
+use InvalidArgumentException;
 
 class WebFinger
 {
-    /** @var array */
-    private $options;
-
     /** @var \GuzzleHttp\Client */
     private $client;
 
-    public function __construct(array $options = array(), Client $client = null)
+    /** @var array */
+    private $options;
+
+    public function __construct(Client $client = null)
     {
-        $this->options = $options;
         if (null === $client) {
-            $client = new Client(
-                array(
-                    'protocols' => array('https'),
-                )
-            );
+            $client = new Client();
         }
         $this->client = $client;
+        $this->options = array(
+            'verify' => true,
+            'ignore_media_type' => false,
+        );
+    }
+
+    public function setOption($key, $value)
+    {
+        if (!array_key_exists($key, $this->options)) {
+            throw new InvalidArgumentException('unsupported option');
+        }
+        $this->options[$key] = $value;
     }
 
     public function finger($resource)
@@ -51,18 +59,18 @@ class WebFinger
             throw new WebFingerException('resource must be formatted as an email address');
         }
         $domainName = explode('@', $resource)[1];
-
         $webFingerUri = sprintf('https://%s/.well-known/webfinger?resource=acct:%s', $domainName, $resource);
 
         try {
             $response = $this->client->get(
                 $webFingerUri,
                 array(
-                    'verify' => $this->getOption('verify', true),
+                    'verify' => $this->options['verify'],
+                    'protocols' => array('https')
                 )
             );
 
-            if (!$this->getOption('ignore_media_type', false)) {
+            if (!$this->options['ignore_media_type']) {
                 if ('application/jrd+json' !== $response->getHeader('Content-Type')) {
                     throw new WebFingerException(
                         sprintf(
@@ -74,7 +82,7 @@ class WebFinger
             }
             if ('*' !== $response->getHeader('Access-Control-Allow-Origin')) {
                 throw new WebFingerException(
-                    'Access-Control-Allow-Origin header missing or invalid'
+                    'CORS header "Access-Control-Allow-Origin" missing or invalid'
                 );
             }
 
@@ -88,10 +96,5 @@ class WebFinger
             }
             throw $e;
         }
-    }
-
-    private function getOption($key, $default)
-    {
-        return array_key_exists($key, $this->options) ? $this->options[$key] : $default;
     }
 }
