@@ -34,7 +34,7 @@ class WebFingerDataTest extends PHPUnit_Framework_TestCase
         $w = new WebFingerData(
             json_decode(
                 file_get_contents(
-                    dirname(dirname(__DIR__)).'/data/fkooman@localhost'
+                    __DIR__.'/data/fkooman@localhost'
                 ),
                 true
             )

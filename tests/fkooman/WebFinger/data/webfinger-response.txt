@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Date: Tue, 06 Oct 2015 08:02:22 GMT
+Server: Apache/2.4.16 (Fedora) OpenSSL/1.0.1k-fips PHP/5.6.13 mod_wsgi/4.4.8 Python/2.7.10
+Access-Control-Allow-Origin: *
+Last-Modified: Tue, 06 Oct 2015 08:02:13 GMT
+ETag: "26f-5216b0c2c87d1"
+Accept-Ranges: bytes
+Content-Length: 623
+Content-Type: application/jrd+json
+
+{
+    "links": [
+        {
+            "href": "https://localhost/php-remote-storage/api.php/fkooman",
+            "properties": {
+                "http://remotestorage.io/spec/version": "draft-dejong-remotestorage-03",
+                "http://tools.ietf.org/html/rfc2616#section-14.16": "false",
+                "http://tools.ietf.org/html/rfc6749#section-4.2": "https://localhost/php-oauth-as/authorize.php?x_resource_owner_hint=fkooman",
+                "http://tools.ietf.org/html/rfc6750#section-2.3": "true"
+            },
+            "rel": "remotestorage"
+        }
+    ],
+    "subject": "acct:fkooman@localhost"
+}

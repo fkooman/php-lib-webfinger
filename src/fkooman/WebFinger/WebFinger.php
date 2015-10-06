@@ -66,7 +66,7 @@ class WebFinger
                 $webFingerUri,
                 array(
                     'verify' => $this->options['verify'],
-                    'protocols' => array('https')
+                    'allow_redirects' => array('protocols' => array('https')),
                 )
             );
 
