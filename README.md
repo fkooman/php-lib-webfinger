@@ -18,7 +18,7 @@ The library `fkooman\WebFinger\WebFinger` can be used in your project.
 You can also use `Composer` and make this library a dependency by putting
 the following in your `composer.json` in the `require` section:
 
-	"fkooman/webfinger": "~0.1.0"
+	"fkooman/webfinger": "^1.0.0"
 
 Or if you want to use the development version:
 
@@ -33,28 +33,26 @@ Or if you want to use the development version:
     use fkooman\WebFinger\Exception\WebFingerException;
 
     try { 
-        $w = new WebFinger()
+        $w = new WebFinger();
         echo $w->finger("fkooman@5apps.com");
     } catch (WebFingerException $e) {
         echo $e->getMessage() . PHP_EOL;
     } 
 
 The `WebFingerException` is thrown if an error occurs, like a specification
-violation. There are a number of options that can be provided to the 
-`WebFinger` contructor to avoid some (fatal) errors:
+violation. There are a number of options that can be set to avoid some (fatal) 
+errors:
 
-    $w = new WebFinger(
-        array(
-            // enable SSL verification (default: true)
-            "verify" => true,
-            // disable Content-Type check (default: false)
-            "ignore_media_type" => false
-        )
-    );
+    $w = new WebFinger();
 
-**Please DO NOT use any of these options in production environments!**
+    // disable TLS verification (default: true)
+    $w->setOption('verify', false);
+    // disable Content-Type check (default: false)
+    $w->setOption('ignore_media_type', true);
 
-# Compliancy Testing
+**NOTE**: DO NOT use any of these options in production environments!
+
+# Simple Compliancy Testing
 A script is included to check a WebFinger server implementation:
 
 	$ php finger.php foo@example.org
