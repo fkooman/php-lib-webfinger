@@ -71,7 +71,7 @@ class WebFinger
             );
 
             if (!$this->options['ignore_media_type']) {
-                if ('application/jrd+json' !== $response->getHeader('Content-Type')) {
+                if (0 !== strpos($response->getHeader('Content-Type'), 'application/jrd+json')) {
                     throw new WebFingerException(
                         sprintf(
                             'invalid media type, expected "application/jrd+json", got "%s"',

@@ -58,7 +58,7 @@ class WebFingerData
                     foreach ($link['properties'] as $k => $v) {
                         // key must be URI, value must be string or null
                         $this->requireUri($k);
-                        $this->requireStringOrNull($v);
+                        $this->requireStringOrNull($k, $v);
                     }
                 }
             }
@@ -120,12 +120,12 @@ class WebFingerData
     {
         if (array_key_exists($key, $data)) {
             if (!is_array($data[$key])) {
-                throw new WebFingerException(sprintf("'%s' has not an array value", $key));
+                throw new WebFingerException(sprintf('"%s" does not have an array value', $key));
             }
 
             return $data[$key];
         } elseif ($failWhenMissing) {
-            throw new WebFingerException(sprintf("'%s' does not exist", $key));
+            throw new WebFingerException(sprintf('"%s" does not exist', $key));
         }
 
         return;
@@ -135,12 +135,12 @@ class WebFingerData
     {
         if (array_key_exists($key, $data)) {
             if (!is_string($data[$key])) {
-                throw new WebFingerException(sprintf("'%s' has not a string value", $key));
+                throw new WebFingerException(sprintf('"%s" does not have a string value', $key));
             }
 
             return $data[$key];
         } elseif ($failWhenMissing) {
-            throw new WebFingerException(sprintf("'%s' does not exist", $key));
+            throw new WebFingerException(sprintf('"%s" does not exist', $key));
         }
 
         return;
@@ -149,16 +149,27 @@ class WebFingerData
     private static function requireUri($s)
     {
         if (false === filter_var($s, FILTER_VALIDATE_URL)) {
-            throw new WebFingerException('not a valid uri');
+            throw new WebFingerException(
+                sprintf(
+                    '"%s" is not a valid uri',
+                    $s
+                )
+            );
         }
 
         return $s;
     }
 
-    private static function requireStringOrNull($s)
+    private static function requireStringOrNull($k, $s)
     {
         if (!is_string($s) && !is_null($s)) {
-            throw new WebFingerException(sprintf("'%s' not a string or null", gettype($s)));
+            throw new WebFingerException(
+                sprintf(
+                    'property "%s" has type "%s", not string or null',
+                    $k,
+                    gettype($s)
+                )
+            );
         }
 
         return $s;
