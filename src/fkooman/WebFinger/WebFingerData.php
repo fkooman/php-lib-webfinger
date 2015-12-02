@@ -21,14 +21,18 @@ use fkooman\WebFinger\Exception\WebFingerException;
 
 class WebFingerData
 {
+    /** @var array */
+    private $options;
+
     /** @var string */
     private $subject;
 
     /** @var array */
     private $links;
 
-    public function __construct(array $webFingerData)
+    public function __construct(array $webFingerData, array $options)
     {
+        $this->options = $options;
         $this->subject = null;
         $this->links = array();
 
@@ -58,7 +62,9 @@ class WebFingerData
                     foreach ($link['properties'] as $k => $v) {
                         // key must be URI, value must be string or null
                         $this->requireUri($k);
-                        $this->requireStringOrNull($k, $v);
+                        if (!$options['ignore_property_value_type']) {
+                            $this->requireStringOrNull($k, $v);
+                        }
                     }
                 }
             }

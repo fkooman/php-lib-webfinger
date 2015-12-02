@@ -14,6 +14,7 @@ try {
     $w = new WebFinger();
     //$w->setOption('verify', false);
     //$w->setOption('ignore_media_type', true);
+    //$w->setOption('ignore_property_value_type', true);
     echo $w->finger($argv[1]);
 } catch (WebFingerException $e) {
     printf('WebFinger Exception: %s'.PHP_EOL, $e->getMessage());

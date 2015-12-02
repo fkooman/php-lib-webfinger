@@ -23,7 +23,7 @@ class WebFingerDataTest extends PHPUnit_Framework_TestCase
 {
     public function testEmptyWebFingerData()
     {
-        $w = new WebFingerData(array());
+        $w = new WebFingerData(array(), array());
         $this->assertNull($w->getSubject());
         $this->assertNull($w->getProperty('remotestorage', 'http://tools.ietf.org/html/rfc6749#section-4.2'));
         $this->assertNull($w->getHref('remotestorage'));
@@ -37,7 +37,8 @@ class WebFingerDataTest extends PHPUnit_Framework_TestCase
                     __DIR__.'/data/fkooman@localhost'
                 ),
                 true
-            )
+            ),
+            array('ignore_property_value_type' => false)
         );
         $this->assertEquals('acct:fkooman@localhost', $w->getSubject());
         $this->assertEquals('https://localhost/php-remote-storage/api.php/fkooman', $w->getHref('remotestorage'));

@@ -47,8 +47,14 @@ errors:
 
     // disable TLS verification (default: true)
     $w->setOption('verify', false);
+
     // disable Content-Type check (default: false)
     $w->setOption('ignore_media_type', true);
+
+    // disable check of the type of property value, introduced for the 
+    // remoteStorage WebFinger specification issues
+    // MUST be null or string according to specification (default: false)
+    $w->setOption('ignore_property_value_type', true);
 
 **NOTE**: DO NOT use any of these options in production environments!
 

@@ -40,6 +40,7 @@ class WebFinger
         $this->options = array(
             'verify' => true,
             'ignore_media_type' => false,
+            'ignore_property_value_type' => false,
         );
     }
 
@@ -86,7 +87,7 @@ class WebFinger
                 );
             }
 
-            return new WebFingerData($response->json());
+            return new WebFingerData($response->json(), $this->options);
         } catch (RequestException $e) {
             // a 404 is a normal response when the resource does not exist, so
             // we wrap that here in a WebFingerException, so any other
